@@ -1,0 +1,9 @@
+.dashboard {
+  padding: 20px;
+}
+
+.goal-cards {
+  display: flex;
+  flex-wrap: wrap; /* Wrap items to the next line if necessary */
+  gap: 15px; /* Space between the goal cards */
+}

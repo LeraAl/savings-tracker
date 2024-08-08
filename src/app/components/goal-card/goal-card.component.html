@@ -1,0 +1,14 @@
+<mat-card class="goal-card">
+  <img mat-card-image [src]="goal.imageUrl" alt="{{ goal.title }}" />
+  <mat-card-content>
+    <h2>{{ goal.title }}</h2>
+    <p>
+      Saved {{ goal.savedAmount | currency }}/{{
+        goal.targetAmount | currency
+      }}
+      ({{ progressPercentage | number : "1.0-2" }}%)
+    </p>
+    <!-- <p>Saving Start Date: {{ goal.savingStartDate | date : "mediumDate" }}</p> -->
+    <p>Due Date: {{ goal.dueDate | date : "mediumDate" }}</p>
+  </mat-card-content>
+</mat-card>
