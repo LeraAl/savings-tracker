@@ -21,7 +21,7 @@ export class GoalsService {
     const newGoal = {
       savedAmount: 0,
       ...goal,
-      id: this.goals()[0].id + 1,
+      id: (this.goals()[0]?.id || 0) + 1,
     } as Goal;
 
     this.goals.update((goals) => [newGoal, ...goals]);
