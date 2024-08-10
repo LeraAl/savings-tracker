@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Goal } from '../../models/goal.model';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-goal-card',
@@ -13,7 +14,13 @@ import { MatCardModule } from '@angular/material/card';
 export class GoalCardComponent {
   @Input() goal!: Goal;
 
+  constructor(private router: Router) {}
+
   get progressPercentage(): number {
     return (this.goal.savedAmount / this.goal.targetAmount) * 100;
+  }
+
+  goToGoalDetails(goalId: number): void {
+    this.router.navigate(['/goal', goalId]);
   }
 }

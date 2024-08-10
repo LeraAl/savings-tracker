@@ -1,87 +1,64 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, Signal, signal } from '@angular/core';
 import { Goal } from '../models/goal.model';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoalsService {
-  goals = signal<Goal[]>([
-    {
-      id: 1,
-      title: 'Vacation Fund',
-      targetAmount: 1000,
-      savedAmount: 100,
-      dueDate: new Date('2024-12-31'),
-      savingStartDate: new Date('2024-01-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 2,
-      title: 'Emergency Fund',
-      targetAmount: 5000,
-      savedAmount: 1200,
-      dueDate: new Date('2025-12-31'),
-      savingStartDate: new Date('2024-06-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 1,
-      title: 'Vacation Fund',
-      targetAmount: 1000,
-      savedAmount: 100,
-      dueDate: new Date('2024-12-31'),
-      savingStartDate: new Date('2024-01-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 2,
-      title: 'Emergency Fund',
-      targetAmount: 5000,
-      savedAmount: 1200,
-      dueDate: new Date('2025-12-31'),
-      savingStartDate: new Date('2024-06-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 1,
-      title: 'Vacation Fund',
-      targetAmount: 1000,
-      savedAmount: 100,
-      dueDate: new Date('2024-12-31'),
-      savingStartDate: new Date('2024-01-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 2,
-      title: 'Emergency Fund',
-      targetAmount: 5000,
-      savedAmount: 1200,
-      dueDate: new Date('2025-12-31'),
-      savingStartDate: new Date('2024-06-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 1,
-      title: 'Vacation Fund',
-      targetAmount: 1000,
-      savedAmount: 100,
-      dueDate: new Date('2024-12-31'),
-      savingStartDate: new Date('2024-01-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 2,
-      title: 'Emergency Fund',
-      targetAmount: 5000,
-      savedAmount: 1200,
-      dueDate: new Date('2025-12-31'),
-      savingStartDate: new Date('2024-06-01'),
-      imageUrl: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    },
-  ]);
-  constructor() {}
+  goals;
 
-  addGoal(goal: Goal): void {
-    this.goals.update((goals) => [goal, ...goals]);
+  private readonly localStorageKey = 'st-goals';
+
+  constructor(private localStorageService: LocalStorageService) {
+    this.goals = signal<Goal[]>(this.getGoals());
+    effect(() => {
+      this.saveGoals();
+    });
+  }
+
+  addGoal(goal: Partial<Goal>): void {
+    const newGoal = {
+      savedAmount: 0,
+      ...goal,
+      id: this.goals()[0].id + 1,
+    } as Goal;
+
+    this.goals.update((goals) => [newGoal, ...goals]);
+  }
+
+  getGoal(id: number): Signal<Goal | undefined> {
+    return computed(() => this.goals().find((goal) => goal.id === id));
+  }
+
+  deleteGoal(id: number): void {
+    this.goals.update((goals) => goals.filter((goal) => goal.id !== id));
+  }
+
+  updateGoal(id: number, newData: Goal): void {
+    this.goals.update((goals) =>
+      goals.map((goal) =>
+        goal.id !== id
+          ? goal
+          : {
+              ...goal,
+              ...newData,
+              id,
+            }
+      )
+    );
+  }
+
+  private getGoals(): Goal[] {
+    return (
+      this.localStorageService.getFromLocalStorage(this.localStorageKey) || []
+    );
+  }
+
+  private saveGoals(): void {
+    this.localStorageService.saveToLocalStorage(
+      this.localStorageKey,
+      this.goals()
+    );
   }
 }

@@ -1,0 +1,58 @@
+.goal-details-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.goal-details-card {
+  max-width: 800px;
+  width: 100%;
+}
+
+.goal-details-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.goal-image {
+  flex: 0 0 40%; /* The image will take up 40% of the container width */
+  padding-right: 20px; /* Space between image and details */
+}
+
+.goal-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.goal-info {
+  flex: 1; /* The details will take up the remaining 60% of the container width */
+}
+
+.goal-info h2 {
+  margin-top: 0;
+}
+
+.goal-info p {
+  margin: 10px 0;
+}
+
+.goal-actions {
+  margin: 20px 0;
+}
+
+.goal-actions button {
+  margin-right: 10px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.input-group mat-form-field {
+  flex: 1;
+  margin-right: 10px;
+}

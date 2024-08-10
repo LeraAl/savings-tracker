@@ -1,5 +1,9 @@
-<mat-card class="goal-card">
-  <img mat-card-image [src]="goal.imageUrl" alt="{{ goal.title }}" />
+<mat-card class="goal-card" (click)="goToGoalDetails(goal.id)">
+  <img
+    mat-card-image
+    [src]="goal.imageUrl || 'assets/default-goal.jpg'"
+    alt="{{ goal.title }}"
+  />
   <mat-card-content>
     <h2>{{ goal.title }}</h2>
     <p>
