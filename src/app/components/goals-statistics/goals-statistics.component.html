@@ -1,0 +1,34 @@
+<div class="statistics-container">
+  <!-- First Row: Two Columns -->
+  <div class="row">
+    <div class="column left-column">
+      <!-- Content for the left column, e.g., a summary of goals -->
+      <mat-card>
+        <h3>Your Summary</h3>
+        <p>
+          You have {{ goalsCount() }} goals with a total amount of
+          {{ totalAmount() | currency }}.
+        </p>
+        <p>
+          You've already saved
+          {{ totalSavedAmount() | currency }}
+        </p>
+      </mat-card>
+    </div>
+    <div class="column right-column">
+      <!-- Content for the right column, e.g., a pie chart or progress graph -->
+      <mat-card>
+        <h3>Goals Progress</h3>
+        <app-all-goals-pie-chart [goals]="goals()"></app-all-goals-pie-chart>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Second Row: Full Width Column -->
+  <div class="row full-width-row">
+    <mat-card>
+      <h3>Saving Plans</h3>
+      <app-month-plan-bar-chart></app-month-plan-bar-chart>
+    </mat-card>
+  </div>
+</div>
