@@ -47,7 +47,7 @@ export class AddGoalDialogComponent {
     this.goalForm = this.fb.group({
       title: ['', Validators.required],
       targetAmount: ['', [Validators.required, Validators.min(1)]],
-      savedAmount: ['0', [Validators.required, Validators.min(0)]],
+      savedAmount: [0, [Validators.required, Validators.min(0)]],
       savingStartDate: [new Date().toISOString(), Validators.required],
       dueDate: [''],
       imageUrl: [''],
