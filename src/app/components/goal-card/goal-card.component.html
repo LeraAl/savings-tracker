@@ -13,6 +13,9 @@
       ({{ progressPercentage | number : "1.0-2" }}%)
     </p>
     <!-- <p>Saving Start Date: {{ goal.savingStartDate | date : "mediumDate" }}</p> -->
+    @if(goal.dueDate) {
+
     <p>Due Date: {{ goal.dueDate | date : "mediumDate" }}</p>
+    }
   </mat-card-content>
 </mat-card>
