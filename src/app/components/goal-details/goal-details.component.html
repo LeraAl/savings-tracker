@@ -1,0 +1,95 @@
+<div class="goal-details-container">
+  <mat-card class="goal-details-card">
+    <div class="goal-details-content">
+      <!-- Left Column: Image -->
+      <div class="goal-image">
+        <img
+          [src]="goal().imageUrl || 'assets/default-goal.jpg'"
+          alt="{{ goal().title }}"
+        />
+      </div>
+
+      <!-- Right Column: Details -->
+      <div class="goal-info">
+        <h2>{{ goal().title }}</h2>
+        <p>
+          <strong>Target Amount:</strong> {{ goal().targetAmount | currency }}
+        </p>
+        <p>
+          <strong>Saved Amount:</strong> {{ goal().savedAmount | currency }}
+        </p>
+        <p>
+          <strong>Progress:</strong>
+          {{
+            goal()
+              ? ((goal().savedAmount / goal().targetAmount) * 100).toFixed(2)
+              : 0
+          }}%
+        </p>
+        <p>
+          <strong>Saving Start Date:</strong>
+          {{ goal().savingStartDate | date }}
+        </p>
+        <p><strong>Due Date:</strong> {{ goal().dueDate | date }}</p>
+
+        <!-- Buttons to Deposit and Withdraw -->
+        <div class="goal-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="showDepositInput = !showDepositInput"
+          >
+            Deposit
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="showWithdrawInput = !showWithdrawInput"
+          >
+            Withdraw
+          </button>
+        </div>
+
+        <!-- Deposit Input -->
+        @if(showDepositInput) {
+
+        <div class="input-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Deposit Amount</mat-label>
+            <input matInput type="number" [(ngModel)]="depositAmount" />
+          </mat-form-field>
+          <button mat-button color="primary" (click)="confirmDeposit()">
+            Confirm
+          </button>
+          <button mat-button color="secondary" (click)="cancelDeposit()">
+            Cancel
+          </button>
+        </div>
+        }
+
+        <!-- Withdraw Input -->
+        @if(showWithdrawInput) {
+        <div class="input-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Withdraw Amount</mat-label>
+            <input matInput type="number" [(ngModel)]="withdrawAmount" />
+          </mat-form-field>
+          <button mat-button color="primary" (click)="confirmWithdraw()">
+            Confirm
+          </button>
+          <button mat-button color="secondary" (click)="cancelWithdraw()">
+            Cancel
+          </button>
+        </div>
+        }
+
+        <button mat-raised-button color="primary" (click)="editGoal()">
+          Edit Goal
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteGoal()">
+          Delete Goal
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

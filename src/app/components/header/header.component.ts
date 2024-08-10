@@ -8,11 +8,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddGoalDialogComponent } from '../add-goal-dialog/add-goal-dialog.component';
 import { Goal } from '../../models/goal.model';
 import { GoalsService } from '../../services/goals.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatButtonModule, MatToolbarModule, MatMenuModule, MatIconModule],
+  imports: [
+    MatButtonModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule,
+    RouterLink,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
