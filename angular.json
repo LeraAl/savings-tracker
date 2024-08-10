@@ -21,6 +21,7 @@
               "base": "docs",
               "browser": ""
             },
+            "baseHref": "/savings-tracker/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
