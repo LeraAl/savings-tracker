@@ -29,31 +29,70 @@ export class MonthPlanBarChartComponent {
         dueDate: Date;
       })[]
   );
-  dataSet = computed(() =>
+  barDataset = computed(() =>
     this.goalsWithDueDate().map((goal, index, goals) => ({
       backgroundColor: `hsla(${Math.round(
         (360 / goals.length) * index
       )}, 75%, 60%, 1)`,
       data: this.mapGoalToChartData(goal),
       label: goal.title,
+      type: 'bar',
     }))
   );
 
+  lineDataSet = computed(() => {
+    const data = this.barDataset().map((dataset) => dataset.data);
+
+    return data.reduce((acc, val) => {
+      val.forEach((v, index) => {
+        if (acc[index] == undefined) {
+          acc.push(v ?? 0);
+        } else {
+          acc[index] += v ?? 0;
+        }
+      });
+      return acc;
+    }, []);
+  });
+
   chartData = computed(() => ({
     labels: this.labels(),
-    datasets: this.dataSet(),
+    datasets: [
+      {
+        type: 'line',
+        label: 'Total',
+        borderColor: 'rgb(54, 162, 235)',
+        pointHitRadius: 15,
+        data: this.lineDataSet(),
+      },
+      ...this.barDataset(),
+    ] as any[],
   }));
 
   mapGoalToChartData = (goal: Goal & { dueDate: Date }) => {
-    const nOfMonths = getMonthDifference(new Date(), goal.dueDate);
+    const startDate =
+      goal.savingStartDate > new Date() ? goal.savingStartDate : new Date();
+    let nOfMonths = getMonthDifference(startDate, goal.dueDate);
+    if (new Date().getDate() < 15) {
+      nOfMonths += 1;
+    }
     const amountToSave = goal.targetAmount - goal.savedAmount;
     if (nOfMonths < 0 || amountToSave < 0) return [];
 
-    return new Array(nOfMonths).fill(Math.ceil(amountToSave / nOfMonths));
+    const nOfMonthsTillStart = getMonthDifference(new Date(), startDate);
+
+    return new Array(nOfMonths + nOfMonthsTillStart)
+      .fill(0)
+      .fill(Math.ceil(amountToSave / nOfMonths), nOfMonthsTillStart);
   };
 
   options = {
     responsive: true,
+    elements: {
+      line: {
+        backgroundColor: 'rgba(256, 256, 256)',
+      },
+    },
     scales: {
       x: {
         stacked: true,
