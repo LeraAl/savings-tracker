@@ -84,10 +84,6 @@ export class AllGoalsPieChartComponent {
           },
         },
       },
-      title: {
-        display: true,
-        text: 'Chart.js Pie Chart',
-      },
     },
   };
 }
