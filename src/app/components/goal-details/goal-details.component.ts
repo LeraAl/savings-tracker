@@ -42,7 +42,7 @@ export class GoalDetailsComponent {
   ) {}
 
   ngOnInit(): void {
-    const goalId = Number(this.route.snapshot.paramMap.get('id'));
+    const goalId = this.route.snapshot.paramMap.get('id')!;
     const goal = this.goalsService.getGoal(goalId);
 
     if (!goal()) {

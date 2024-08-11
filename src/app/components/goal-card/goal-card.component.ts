@@ -20,7 +20,7 @@ export class GoalCardComponent {
     return (this.goal.savedAmount / this.goal.targetAmount) * 100;
   }
 
-  goToGoalDetails(goalId: number): void {
+  goToGoalDetails(goalId: string): void {
     this.router.navigate(['/goal', goalId]);
   }
 }
