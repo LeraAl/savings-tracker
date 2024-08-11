@@ -1,6 +1,7 @@
 import { computed, effect, Injectable, Signal, signal } from '@angular/core';
 import { Goal } from '../models/goal.model';
 import { LocalStorageService } from './local-storage.service';
+import { getUniqueId } from '../utils/uuid.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -21,21 +22,21 @@ export class GoalsService {
     const newGoal = {
       savedAmount: 0,
       ...goal,
-      id: (this.goals()[0]?.id || 0) + 1,
+      id: getUniqueId(),
     } as Goal;
 
     this.goals.update((goals) => [newGoal, ...goals]);
   }
 
-  getGoal(id: number): Signal<Goal | undefined> {
+  getGoal(id: string): Signal<Goal | undefined> {
     return computed(() => this.goals().find((goal) => goal.id === id));
   }
 
-  deleteGoal(id: number): void {
+  deleteGoal(id: string): void {
     this.goals.update((goals) => goals.filter((goal) => goal.id !== id));
   }
 
-  updateGoal(id: number, newData: Goal): void {
+  updateGoal(id: string, newData: Goal): void {
     this.goals.update((goals) =>
       goals.map((goal) =>
         goal.id !== id
