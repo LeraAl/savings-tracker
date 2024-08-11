@@ -1,1 +1,13 @@
-<p>month-plan-bar-chart works!</p>
+@if (goalsWithoutDueDate().length > 0) {
+<p>Only goals with "Due Date" are visible in this chart.</p>
+<p>You have {{ goalsWithoutDueDate().length }} goal(-s) without Due Date.</p>
+}
+
+<canvas
+  baseChart
+  [data]="chartData()"
+  [options]="options"
+  [plugins]="[plugin]"
+  [type]="'bar'"
+>
+</canvas>

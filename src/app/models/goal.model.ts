@@ -3,7 +3,7 @@ export interface Goal {
   title: string;
   targetAmount: number;
   savedAmount: number;
-  dueDate: Date;
+  dueDate: Date | undefined;
   savingStartDate: Date;
   imageUrl: string;
 }
