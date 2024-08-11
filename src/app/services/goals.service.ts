@@ -50,9 +50,16 @@ export class GoalsService {
   }
 
   private getGoals(): Goal[] {
-    return (
-      this.localStorageService.getFromLocalStorage(this.localStorageKey) || []
-    );
+    const goalsFromLS: Goal[] =
+      this.localStorageService.getFromLocalStorage(this.localStorageKey) || [];
+
+    return goalsFromLS.map((goal) => ({
+      ...goal,
+      savingStartDate: goal.savingStartDate
+        ? new Date(goal.savingStartDate)
+        : new Date(),
+      dueDate: goal.dueDate ? new Date(goal.dueDate) : undefined,
+    }));
   }
 
   private saveGoals(): void {
