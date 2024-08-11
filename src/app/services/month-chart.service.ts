@@ -119,7 +119,7 @@ export class MonthChartService {
           }
         : undefined,
       ...barDataset(),
-    ] as any[];
+    ].filter((v) => !!v) as any[];
   }
 
   mapGoalToChartData = (goal: Goal) => {
