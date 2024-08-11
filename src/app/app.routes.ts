@@ -3,6 +3,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { GoalDetailsComponent } from './components/goal-details/goal-details.component';
 import { GoalsStatisticsComponent } from './components/goals-statistics/goals-statistics.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -10,4 +11,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'statistics', component: GoalsStatisticsComponent },
+  { path: 'settings', component: SettingsComponent },
 ];
