@@ -9,7 +9,7 @@
         type="number"
         min="1"
         max="31"
-        [(ngModel)]="settings.paymentDay"
+        [(ngModel)]="settingsData.paymentDay"
         name="paymentDay"
         required
       />
@@ -21,9 +21,8 @@
       <input
         matInput
         type="number"
-        [(ngModel)]="settings.monthlyLimit"
+        [(ngModel)]="settingsData.monthlyLimit"
         name="monthlyLimit"
-        required
       />
     </mat-form-field>
 

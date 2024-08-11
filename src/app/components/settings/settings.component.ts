@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-
-interface UserSettings {
-  paymentDay: number;
-  monthlyLimit: number;
-}
+import {
+  UserSettings,
+  UserSettingsService,
+} from '../../services/user-settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -24,26 +23,13 @@ interface UserSettings {
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent {
-  settings: UserSettings = {
-    paymentDay: 1,
-    monthlyLimit: 0,
-  };
+  settingsData: UserSettings;
 
-  constructor(private localStorageService: LocalStorageService) {}
-
-  ngOnInit(): void {
-    this.loadSettings();
-  }
-
-  loadSettings(): void {
-    const storedSettings =
-      this.localStorageService.getFromLocalStorage('userSettings');
-    if (storedSettings) {
-      this.settings = storedSettings;
-    }
+  constructor(private settingsService: UserSettingsService) {
+    this.settingsData = this.settingsService.settings();
   }
 
   saveSettings(): void {
-    this.localStorageService.saveToLocalStorage('userSettings', this.settings);
+    this.settingsService.saveSettings(this.settingsData);
   }
 }
