@@ -1,0 +1,39 @@
+<div class="settings-container">
+  <h2>Settings</h2>
+  <form (ngSubmit)="saveSettings()" #settingsForm="ngForm">
+    <!-- Day of Monthly Payment -->
+    <mat-form-field appearance="fill">
+      <mat-label>Day of Monthly Payment</mat-label>
+      <input
+        matInput
+        type="number"
+        min="1"
+        max="31"
+        [(ngModel)]="settingsData.paymentDay"
+        name="paymentDay"
+        required
+      />
+    </mat-form-field>
+
+    <!-- Monthly Savings Limit -->
+    <mat-form-field appearance="fill">
+      <mat-label>Monthly Savings Limit</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="settingsData.monthlyLimit"
+        name="monthlyLimit"
+      />
+    </mat-form-field>
+
+    <!-- Save Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="settingsForm.invalid"
+    >
+      Save Settings
+    </button>
+  </form>
+</div>

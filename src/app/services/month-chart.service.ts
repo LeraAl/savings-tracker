@@ -1,12 +1,13 @@
 import { computed, Injectable, Signal } from '@angular/core';
 import { getMonthDifference, getNextMonthsLabels } from '../utils/date.utils';
 import { Goal } from '../models/goal.model';
+import { UserSettingsService } from './user-settings.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MonthChartService {
-  constructor() {}
+  constructor(private userSettingsService: UserSettingsService) {}
 
   getChartConfig() {
     const options = {
@@ -83,14 +84,40 @@ export class MonthChartService {
       return this.getTotalAmountsPerMonth(data);
     });
 
+    const montlyLimit = this.userSettingsService.settings().monthlyLimit;
+    const linePointColors = computed(() => {
+      return lineDataSet().map((value) =>
+        !!value && !!montlyLimit && value > montlyLimit
+          ? 'rgba(255, 0, 0, 0.5)'
+          : 'rgba(200, 200, 200, 0.5)'
+      );
+    });
+
     return [
       {
         type: 'line',
         label: 'Total',
-        borderColor: 'rgb(54, 162, 235)',
+        borderColor: 'rgba(54, 162, 235, 0.5)',
+        showLine: false,
         pointHitRadius: 15,
         data: lineDataSet(),
+        pointBackgroundColor: linePointColors(),
+        pointBorderColor: linePointColors(),
+        stack: 'Total',
+        pointHoverRadius: 10,
+        pointRadius: 0,
       },
+      montlyLimit
+        ? {
+            type: 'line',
+            label: 'Monthly Limit',
+            borderColor: 'rgba(200, 200, 200, 0.5)',
+            pointStyle: false,
+            pointHitRadius: 15,
+            data: new Array(12).fill(montlyLimit),
+            stack: 'Monthly Limit',
+          }
+        : undefined,
       ...barDataset(),
     ] as any[];
   }
